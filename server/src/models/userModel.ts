@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { logger } from '../utils/logger';
+import { logger } from '../utils/logger.ts';
 
 export interface IUser {
   username: string;

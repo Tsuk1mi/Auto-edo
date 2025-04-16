@@ -10,7 +10,7 @@ export const authService = {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     return apiRequest<AuthResponse>({
       method: 'POST',
-      url: '/auth/login',
+      url: '/api/auth/login', // Corrected API endpoint
       data: credentials,
     });
   },
@@ -18,7 +18,7 @@ export const authService = {
   async register(userData: RegisterData): Promise<AuthResponse> {
     return apiRequest<AuthResponse>({
       method: 'POST',
-      url: '/auth/register',
+      url: '/api/auth/register', // Corrected API endpoint
       data: userData,
     });
   },
@@ -26,14 +26,14 @@ export const authService = {
   async logout(): Promise<void> {
     return apiRequest<void>({
       method: 'POST',
-      url: '/auth/logout',
+      url: '/api/auth/logout', // Corrected API endpoint
     });
   },
 
   async getCurrentUser(): Promise<User> {
     return apiRequest<User>({
       method: 'GET',
-      url: '/auth/me',
+      url: '/api/auth/me', // Corrected API endpoint
     });
   },
 
@@ -41,18 +41,19 @@ export const authService = {
   mockLogin(credentials: LoginCredentials): Promise<AuthResponse> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        if (credentials.email === 'user@example.com' && credentials.password === 'password') {
+        if (credentials.email === 'user@example.com' && credentials.password === 'password123') {
           resolve({
             user: {
               id: '1',
               username: 'user',
               email: 'user@example.com',
-              fullName: 'Test User',
+              fullName: 'Тестовый Пользователь',
+              avatar: 'https://avatars.githubusercontent.com/u/2?v=4',
             },
             token: 'mock-jwt-token',
           });
         } else {
-          throw new Error('Invalid credentials');
+          throw new Error('Неверный email или пароль');
         }
       }, 500);
     });

@@ -1,6 +1,6 @@
 import express from 'express';
-import { protect } from '../middleware/authMiddleware';
-import * as integrationController from '../controllers/integrationController';
+import { protect } from '../middleware/authMiddleware.ts';
+import * as integrationController from '../controllers/integrationController.ts';
 
 const router = express.Router();
 

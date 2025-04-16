@@ -24,7 +24,7 @@ export const documentService = {
   async getDocuments(params?: GetDocumentsParams): Promise<PaginatedResponse<Document>> {
     return apiRequest<PaginatedResponse<Document>>({
       method: 'GET',
-      url: '/documents',
+      url: '/api/documents',
       params,
     });
   },
@@ -32,14 +32,14 @@ export const documentService = {
   async getDocumentById(id: string): Promise<Document> {
     return apiRequest<Document>({
       method: 'GET',
-      url: `/documents/${id}`,
+      url: `/api/documents/${id}`,
     });
   },
 
   async createDocument(documentData: CreateDocumentDto): Promise<Document> {
     return apiRequest<Document>({
       method: 'POST',
-      url: '/documents',
+      url: '/api/documents',
       data: documentData,
     });
   },
@@ -47,7 +47,7 @@ export const documentService = {
   async updateDocument(id: string, documentData: Partial<Document>): Promise<Document> {
     return apiRequest<Document>({
       method: 'PUT',
-      url: `/documents/${id}`,
+      url: `/api/documents/${id}`,
       data: documentData,
     });
   },
@@ -55,14 +55,14 @@ export const documentService = {
   async deleteDocument(id: string): Promise<void> {
     return apiRequest<void>({
       method: 'DELETE',
-      url: `/documents/${id}`,
+      url: `/api/documents/${id}`,
     });
   },
 
   async getDocumentStats(): Promise<DocumentStats> {
     return apiRequest<DocumentStats>({
       method: 'GET',
-      url: '/documents/stats',
+      url: '/api/documents/stats',
     });
   },
 

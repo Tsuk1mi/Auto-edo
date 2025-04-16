@@ -13,7 +13,7 @@ export const integrationService = {
   async getGrafanaToken(): Promise<ExternalServiceToken> {
     return apiRequest<ExternalServiceToken>({
       method: 'GET',
-      url: '/integration/grafana-token',
+      url: '/api/integration/grafana-token',
     });
   },
 
@@ -23,7 +23,7 @@ export const integrationService = {
   async getAnsibleToken(): Promise<ExternalServiceToken> {
     return apiRequest<ExternalServiceToken>({
       method: 'GET',
-      url: '/integration/ansible-token',
+      url: '/api/integration/ansible-token',
     });
   },
 

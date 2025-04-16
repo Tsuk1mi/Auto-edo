@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
-import User from '../models/userModel';
-import { generateToken } from '../middleware/authMiddleware';
-import { logger } from '../utils/logger';
+import User from '../models/userModel.ts';
+import { generateToken } from '../middleware/authMiddleware.ts';
+import { logger } from '../utils/logger.ts';
 
 // Стандартизированный ответ API
 interface ApiResponse<T> {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
+import type React from 'react';
+import { useState, useEffect, createContext, useContext, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cva } from 'class-variance-authority';
 

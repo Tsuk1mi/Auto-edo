@@ -2,6 +2,7 @@ import type React from 'react';
 import { useState, useEffect } from 'react';
 import { logger } from '../../../utils/logger';
 import api from '../../../api/api';
+import { apiRequest } from '@/api/api';
 
 interface LogFile {
   name: string;
@@ -213,12 +214,12 @@ const LogViewer: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
       setLoading(true);
       setError(null);
 
-      const response = await api.get('/api/logs/files');
-      if (response.data.success) {
-        setFiles(response.data.data.files || []);
-      } else {
-        throw new Error(response.data.message || 'Не удалось загрузить список файлов логов');
-      }
+      const response = await apiRequest({
+        method: 'GET',
+        url: '/api/logs/files'
+      });
+
+      setFiles(response.files || []);
     } catch (err: any) {
       logger.error('Error fetching log files', { error: err.message });
       setError(err.message || 'Не удалось загрузить список файлов логов');
@@ -235,20 +236,21 @@ const LogViewer: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
       setError(null);
 
       // Извлекаем дату из имени файла
-      const dateMatch = file.name.match(/-([\d-]+)\./);
-      const date = dateMatch ? dateMatch[1] : '';
+      const dateMatch = file.name.match(/-([\\d-]+)\\./) || ["", ""];
+      const date = dateMatch[1];
       const type = file.type;
 
       if (!date) {
         throw new Error('Не удалось определить дату из имени файла');
       }
 
-      const response = await api.get(`/api/logs/content?date=${date}&type=${type}`);
-      if (response.data.success) {
-        setLogEntries(response.data.data.entries || []);
-      } else {
-        throw new Error(response.data.message || 'Не удалось загрузить содержимое лога');
-      }
+      const response = await apiRequest({
+        method: 'GET',
+        url: `/api/logs/content`,
+        params: { date, type }
+      });
+
+      setLogEntries(response.entries || []);
     } catch (err: any) {
       logger.error('Error fetching log content', { error: err.message, file: file.name });
       setError(err.message || 'Не удалось загрузить содержимое лога');
@@ -265,16 +267,16 @@ const LogViewer: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
       setLoading(true);
 
       const type = selectedFile.type;
-      const response = await api.delete(`/api/logs/clear?type=${type}`);
+      const response = await apiRequest({
+        method: 'DELETE',
+        url: `/api/logs/clear`,
+        params: { type }
+      });
 
-      if (response.data.success) {
-        logger.info('Logs cleared successfully', { deletedCount: response.data.deletedCount });
-        await fetchLogFiles();
-        setSelectedFile(null);
-        setLogEntries([]);
-      } else {
-        throw new Error(response.data.message || 'Не удалось очистить логи');
-      }
+      logger.info('Logs cleared successfully', { deletedCount: response.deletedCount });
+      await fetchLogFiles();
+      setSelectedFile(null);
+      setLogEntries([]);
     } catch (err: any) {
       logger.error('Error clearing logs', { error: err.message });
       setError(err.message || 'Не удалось очистить логи');
